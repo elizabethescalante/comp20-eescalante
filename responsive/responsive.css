@@ -1,0 +1,46 @@
+/* first image */
+.software {
+	width:440px; 
+	height:580px; 
+	background:url("software.png") 0 0px;
+}
+
+@media only screen and (max-width: 1200px)
+{
+	/* second image */
+	.software {
+		width:420px; 
+		height:580px; 
+		background:url("software.png") -450px 0px;
+	}
+}
+
+@media only screen and (max-width: 1000px)
+{
+	/* third image */
+	.software {
+		width:340px; 
+		height:580px; 
+		background:url("software.png") 340px 0px;
+	}
+}
+
+@media only screen and (max-width: 800px)
+{
+	/* fourth image */
+	.software {
+		width:710px; 
+		height:630px; 
+		background:url("software.png") 0px -580px;
+	}
+}
+
+@media only screen and (max-width: 600px)
+{
+	/* fifth image */
+	.software {
+		width:485px; 
+		height:630px; 
+		background:url("software.png") -720px -580px;
+	}
+}
