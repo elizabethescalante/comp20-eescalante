@@ -19,11 +19,44 @@
 	video = videos[0];
 	lyric = document.getElementById("lyrics");
 	video.addEventListener("timeupdate", function() {
-		if (video.currentTime < 10) {
-			lyric.innerHTML = "<p>We Do</p>";
+		if (video.currentTime < 4) {
+			lyric.innerHTML = "<p></p>";
+		}
+		else if (video.currentTime < 6) {
+			lyric.innerHTML = "<p>Who controls the British Crown?</p>";
+		}
+		else if (video.currentTime < 8) {
+			lyric.innerHTML = "<p>Who keeps the metric system down?</p>";
+		}
+		else if (video.currentTime < 12.5) {
+			lyric.innerHTML = "<p>We do, we do!</p>";
+		}
+		else if (video.currentTime < 14.5) {
+			lyric.innerHTML = "<p>Who keeps Atlantis off the maps?</p>";
+		}
+		else if (video.currentTime < 16.5) {
+			lyric.innerHTML = "<p>Who keeps the Martians under wraps?</p>";
+		}
+		else if (video.currentTime < 21) {
+			lyric.innerHTML = "<p>We do, we do!</p>";
+		}
+		else if (video.currentTime < 25) {
+			lyric.innerHTML = "<p>Who holds back the electric car?</p>";
+		}
+		else if (video.currentTime < 29.5) {
+			lyric.innerHTML = "<p>Who makes Steve Guttenberg a star?</p>";
+		}
+		else if (video.currentTime < 33.5) {
+			lyric.innerHTML = "<p>We do, we do!</p>";
+		}
+		else if (video.currentTime < 36) {
+			lyric.innerHTML = "<p>Who robs cavefish of their sight?</p>";
+		}
+		else if (video.currentTime < 38) {
+			lyric.innerHTML = "<p>Who rigs every Oscar night?</p>";
 		}
 		else {
-			lyric.innerHTML = "<p>We Don't</p>";
+			lyric.innerHTML = "<p>We do!</p>";
 		}
 	});
 </script>
