@@ -15,6 +15,17 @@
 
 <script>
 	// Complete this section and create a CSS file named style.css
+	videos = document.getElementsByTagName("video");
+	video = videos[0];
+	lyric = document.getElementById("lyrics");
+	video.addEventListener("timeupdate", function() {
+		if (video.currentTime < 10) {
+			lyric.innerHTML = "<p>We Do</p>";
+		}
+		else {
+			lyric.innerHTML = "<p>We Don't</p>";
+		}
+	});
 </script>
 </body>
 </html>	
