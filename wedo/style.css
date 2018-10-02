@@ -1,6 +1,18 @@
-COMP20 Lab 5: We Do
+body {
+	background-color: #ddeaff;
+}
+
+h1 {
+	text-align: center;
+	font-size: 48px;
+}
+
+video {
+	display: block;
+	margin: 0 auto;
+}
 
 #lyrics {
 	font-size: 20px;
-	color: #002b72;
+	text-align: center;
 }
