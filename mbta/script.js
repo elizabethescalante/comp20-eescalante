@@ -63,4 +63,32 @@ var redLineAshmont = new google.maps.Polyline({
 redLineMain.setMap(map);
 redLineBraintree.setMap(map);
 redLineAshmont.setMap(map);
+
+// Creating icons
+var image = {
+	url: 'subway-icon.png',
+	scaledSize: new google.maps.Size(20, 20)
+};
+for (i = 0; i < redLineStationsMain.length; i++){
+	var stationMarker = new google.maps.Marker({
+	    position: new google.maps.LatLng(redLineStationsMain[i].lat, redLineStationsMain[i].lng),
+	    map: map,
+	    icon: image
+	});
+};
+for (i = 0; i < redLineStationsBraintree.length; i++){
+	var stationMarker = new google.maps.Marker({
+	    position: new google.maps.LatLng(redLineStationsBraintree[i].lat, redLineStationsBraintree[i].lng),
+	    map: map,
+	    icon: image
+	});
+};
+for (i = 0; i < redLineStationsAshmont.length; i++){
+	var stationMarker = new google.maps.Marker({
+	    position: new google.maps.LatLng(redLineStationsAshmont[i].lat, redLineStationsAshmont[i].lng),
+	    map: map,
+	    icon: image
+	});
+};
+
 }
