@@ -101,6 +101,9 @@ function showLocation(pos) {
         position: new google.maps.LatLng(location.latitude, location.longitude),
         map: map
     })
+
+	var center = new google.maps.LatLng(location.latitude, location.longitude);
+    map.setCenter(center);
 }
 
 if (navigator.geolocation) {
@@ -109,5 +112,4 @@ if (navigator.geolocation) {
 else {
 	alert("Geolocation not supported");
 }
-
 
