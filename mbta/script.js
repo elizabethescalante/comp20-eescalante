@@ -1,115 +1,106 @@
-// Initialize map: red line, subway icons, centered at south station
 var map;
+var locationMarker;
+var stationMarker;
 
+var redLine = new Object();
+redLine.Alefwife = {lat: 42.3954, lng: -71.1425};
+redLine.DavisSquare = {lat: 42.3970, lng: -71.1231};
+redLine.PorterSquare = {lat: 42.3884, lng: -71.1191};
+redLine.HarvardSquare = {lat: 42.3734, lng: -71.1190};
+redLine.CentralSquare = {lat: 42.3652, lng: -71.1036};
+redLine.KendallMIT = {lat: 42.3622, lng: -71.0862};
+redLine.CharlesMGH = {lat: 42.3611, lng: -71.0705};
+redLine.ParkStreet = {lat: 42.3564, lng: -71.0623};
+redLine.DowntwonCrossing = {lat: 42.3555, lng: -71.0603};
+redLine.SouthStation = {lat: 42.3519, lng: -71.0551};
+redLine.Broadway = {lat: 42.3426, lng: -71.0569};
+redLine.Andrew = {lat: 42.3302, lng: -71.0577};
+redLine.JFKUmass = {lat: 42.3206, lng: -71.0524};
+redLine.NorthQuincy = {lat: 42.2758, lng: -71.0302};
+redLine.Wollaston = {lat: 42.2668, lng: -71.0205};
+redLine.QuincyCenter = {lat: 42.2520, lng: -71.0055};
+redLine.QuincyAdams = {lat: 42.2333, lng: -71.0071};
+redLine.Braintree = {lat: 42.2073, lng: -71.0014};
+redLine.SavinHill = {lat: 42.3113, lng: -71.0533};
+redLine.FieldsCorner = {lat: 42.2999, lng: -71.0619};
+redLine.Shawmut = {lat: 42.2931, lng: -71.0658};
+redLine.Ashmont = {lat: 42.2845, lng: -71.0637};
+
+const values = Object.values(redLine);
+const keys = Object.keys(redLine);
+
+// Initialize map: red line, subway icons, centered at south station
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
     	center: {lat: 42.3519, lng: -71.0551},
     	zoom: 11,
-    	mapTypeId: 'terrain'
     });
 
-	// Red Line Stations
-	var redLineStationsMain = [
-	    {lat: 42.3954, lng: -71.1425}, //alewife
-	    {lat: 42.3970, lng: -71.1231}, //davis
-	    {lat: 42.3884, lng: -71.1191}, //porter
-	    {lat: 42.3734, lng: -71.1190}, //harvard
-	    {lat: 42.3652, lng: -71.1036}, //central
-	    {lat: 42.3622, lng: -71.0862}, //kendall/mit
-	    {lat: 42.3611, lng: -71.0705}, //charles/mgh
-	    {lat: 42.3564, lng: -71.0623}, //park st
-	    {lat: 42.3555, lng: -71.0603}, //downtown crossing
-	    {lat: 42.3519, lng: -71.0551}, //south station
-	    {lat: 42.3426, lng: -71.0569}, //broadway
-	    {lat: 42.3302, lng: -71.0577}, //andrew
-	    {lat: 42.3206, lng: -71.0524}  //jfk/umass
-	];
-	var redLineStationsBraintree = [
-		{lat: 42.3206, lng: -71.0524}, //jfk/umass
-	    {lat: 42.2758, lng: -71.0302}, //north quincy
-	    {lat: 42.2668, lng: -71.0205}, //wollaston
-	    {lat: 42.2520, lng: -71.0055}, //quincy cntr
-	    {lat: 42.2333, lng: -71.0071}, //quincy adams
-	    {lat: 42.2073, lng: -71.0014}  //braintree    
-	];
-	var redLineStationsAshmont = [
-	    {lat: 42.3206, lng: -71.0524}, //jfk/umass
-	    {lat: 42.3113, lng: -71.0533}, //savin hill
-	    {lat: 42.2999, lng: -71.0619}, //fields corner
-	    {lat: 42.2931, lng: -71.0658}, //shawmut
-	    {lat: 42.2845, lng: -71.0637}  //ashmont  
-	];
-	
-	// Rendering Red Line polyline   
-	var redLineMain = new google.maps.Polyline({
-	    path: redLineStationsMain,
-	    geodesic: true,
-	    strokeColor: '#FF0000',
-	    strokeOpacity: 1.0,
-	    strokeWeight: 2
-	});
-	var redLineBraintree = new google.maps.Polyline({
-	    path: redLineStationsBraintree,
-	    geodesic: true,
-	    strokeColor: '#FF0000',
-	    strokeOpacity: 1.0,
-	    strokeWeight: 2
-	});
-	var redLineAshmont = new google.maps.Polyline({
-	    path: redLineStationsAshmont,
-	    geodesic: true,
-	    strokeColor: '#FF0000',
-	    strokeOpacity: 1.0,
-	    strokeWeight: 2
-	});
-	redLineMain.setMap(map);
-	redLineBraintree.setMap(map);
-	redLineAshmont.setMap(map);
+	polyline();
+    geolocate();
+    closestStation();
+    showSchedule();
+}
 
-	// Creating icons
+function polyline() {
+	// Rendering Red Line polyline 
+	var main = values.slice(0,13);
+	var braintree = values.slice(12,18);
+	var jfk = values.slice(12,13)
+	var others = values.slice(18,22);
+	var ashmont = jfk.concat(others);
+	lines(main);
+	lines(braintree);
+	lines(ashmont);
+
+	icons(values);
+}
+
+function lines(stations) {
+	var redLine = new google.maps.Polyline({
+	    path: stations,
+	    geodesic: true,
+	    strokeColor: '#FF0000',
+	    strokeOpacity: 1.0,
+	    strokeWeight: 2
+	});
+	redLine.setMap(map);
+}
+
+function icons(stations) {
 	var image = {
 		url: 'subway-icon.png',
 		scaledSize: new google.maps.Size(25, 25)
 	};
-	for (i = 0; i < redLineStationsMain.length; i++){
-		var stationMarker = new google.maps.Marker({
-		    position: new google.maps.LatLng(redLineStationsMain[i].lat, redLineStationsMain[i].lng),
-		    map: map,
-		    icon: image
-		});
-	};
-	for (i = 0; i < redLineStationsBraintree.length; i++){
-		var stationMarker = new google.maps.Marker({
-		    position: new google.maps.LatLng(redLineStationsBraintree[i].lat, redLineStationsBraintree[i].lng),
-		    map: map,
-		    icon: image
-		});
-	};
-	for (i = 0; i < redLineStationsAshmont.length; i++){
-		var stationMarker = new google.maps.Marker({
-		    position: new google.maps.LatLng(redLineStationsAshmont[i].lat, redLineStationsAshmont[i].lng),
+
+	for (i = 0; i < stations.length; i++){
+		stationMarker = new google.maps.Marker({
+		    position: new google.maps.LatLng(stations[i].lat, stations[i].lng),
 		    map: map,
 		    icon: image
 		});
 	};
 }
 
+function geolocate() {
+	if (navigator.geolocation) {
+	    navigator.geolocation.getCurrentPosition(showLocation);
+	}
+	else {
+		alert("Geolocation not supported");
+	}
+}	
+
 // Get geolocation and put a marker there
 function showLocation(pos) {
 	var location = pos.coords;
-	var locationMarker = new google.maps.Marker({
+	locationMarker = new google.maps.Marker({
         position: new google.maps.LatLng(location.latitude, location.longitude),
         map: map
     })
 
 	var center = new google.maps.LatLng(location.latitude, location.longitude);
     map.setCenter(center);
-}
+    map.setZoom(13);
 
-if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showLocation);
 }
-else {
-	alert("Geolocation not supported");
-}
-
