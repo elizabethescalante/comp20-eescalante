@@ -39,7 +39,6 @@ function initMap() {
 	polyline();
     geolocate();
     closestStation();
-    showSchedule();
 }
 
 function polyline() {
@@ -102,5 +101,55 @@ function showLocation(pos) {
 	var center = new google.maps.LatLng(location.latitude, location.longitude);
     map.setCenter(center);
     map.setZoom(13);
+}
 
+// Find closest station, render a polyline, 
+function closestStation() {
+	if (navigator.geolocation) {
+	    navigator.geolocation.getCurrentPosition(showCloseStation);
+	}
+	else {
+		alert("Geolocation not supported");
+	}
+}
+
+function showCloseStation(pos) {
+	// Find closest station
+	myLocation = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
+	position = new google.maps.LatLng(values[0].lat, values[0].lng);
+	minDistance = google.maps.geometry.spherical.computeDistanceBetween(myLocation, position);
+	minIndex = 0;
+	for (i = 0; i < values.length; i++){
+		position = new google.maps.LatLng(values[i].lat, values[i].lng);
+		distance = google.maps.geometry.spherical.computeDistanceBetween(myLocation, position);
+		console
+		if (distance < minDistance) {
+			minDistance = distance;
+			minIndex = i;
+		}
+	};
+
+	minDistance = minDistance/1609.344 * 100;
+	minDistance = Math.round(minDistance);
+	minDistance = minDistance/100;
+	
+	// Render a polyline
+	var coords = [myLocation, values[minIndex]];
+	var myLine = new google.maps.Polyline({
+	    path: coords,
+	    geodesic: true,
+	    strokeColor: '#00358c',
+	    strokeOpacity: 1.0,
+	    strokeWeight: 2
+	});
+	myLine.setMap(map);
+
+	// Infowindow
+	var infowindow = new google.maps.InfoWindow({
+          content:"<p>Closest Red Line Station: " + keys[minIndex] + "</p>" + "<p>Distance away: " + minDistance + " miles</p>"
+    });
+
+    locationMarker.addListener('click', function() {
+        infowindow.open(map, locationMarker);
+    });
 }
