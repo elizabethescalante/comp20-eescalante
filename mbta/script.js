@@ -202,6 +202,8 @@ function showCloseStation(location, locationMarker) {
   })
 
   locationMarker.addListener('click', function() {
+    lastOpenInfoWindow && lastOpenInfoWindow.close();
     infowindow.open(map, locationMarker);
+    lastOpenInfoWindow = infowindow;
   })
 }
