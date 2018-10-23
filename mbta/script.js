@@ -1,32 +1,30 @@
 var map;
 var lastOpenInfoWindow;
 
-var redLine = new Object()
-redLine.Alefwife = { lat: 42.3954, lng: -71.1425, id: 'place-alfcl' };
-redLine.DavisSquare = { lat: 42.397, lng: -71.1231, id: 'place-davis' };
-redLine.PorterSquare = { lat: 42.3884, lng: -71.1191, id: 'place-portr' };
-redLine.HarvardSquare = { lat: 42.3734, lng: -71.119, id: 'place-harsq' };
-redLine.CentralSquare = { lat: 42.3652, lng: -71.1036, id: 'place-cntsq' };
-redLine.KendallMIT = { lat: 42.3622, lng: -71.0862, id: 'place-knncl' };
-redLine.CharlesMGH = { lat: 42.3611, lng: -71.0705, id: 'place-chmnl' };
-redLine.ParkStreet = { lat: 42.3564, lng: -71.0623, id: 'place-pktrm' };
-redLine.DowntwonCrossing = { lat: 42.3555, lng: -71.0603, id: 'place-dwnxg' };
-redLine.SouthStation = { lat: 42.3519, lng: -71.0551, id: 'place-sstat' };
-redLine.Broadway = { lat: 42.3426, lng: -71.0569, id: 'place-brdwy' };
-redLine.Andrew = { lat: 42.3302, lng: -71.0577, id: 'place-andrw' };
-redLine.JFKUmass = { lat: 42.3206, lng: -71.0524, id: 'place-jfk' };
-redLine.NorthQuincy = { lat: 42.2758, lng: -71.0302, id: 'place-nqncy' };
-redLine.Wollaston = { lat: 42.2668, lng: -71.0205, id: 'place-wlsta' };
-redLine.QuincyCenter = { lat: 42.252, lng: -71.0055, id: 'place-qnctr' };
-redLine.QuincyAdams = { lat: 42.2333, lng: -71.0071, id: 'place-qamnl' };
-redLine.Braintree = { lat: 42.2073, lng: -71.0014, id: 'place-brntn' };
-redLine.SavinHill = { lat: 42.3113, lng: -71.0533, id: 'place-shmnl' };
-redLine.FieldsCorner = { lat: 42.2999, lng: -71.0619, id: 'place-fldcr' };
-redLine.Shawmut = { lat: 42.2931, lng: -71.0658, id: 'place-smmnl' };
-redLine.Ashmont = { lat: 42.2845, lng: -71.0637, id: 'place-asmnl' };
-
-const values = Object.values(redLine);
-const keys = Object.keys(redLine);
+var values = [
+  {lat: 42.3954, lng: -71.1425, id: 'place-alfcl', name: 'Alewife'},
+  {lat: 42.3970, lng: -71.1231, id: 'place-davis', name: 'Davis Square'},
+  {lat: 42.3884, lng: -71.1191, id: 'place-portr', name: 'Porter Square'},
+  {lat: 42.3734, lng: -71.1190, id: 'place-harsq', name: 'Harvard Square'},
+  {lat: 42.3652, lng: -71.1036, id: 'place-cntsq', name: 'Central Square'},
+  {lat: 42.3622, lng: -71.0862, id: 'place-knncl', name: 'Kendall/MIT'},
+  {lat: 42.3611, lng: -71.0705, id: 'place-chmnl', name: 'Charles/MGH'},
+  {lat: 42.3564, lng: -71.0623, id: 'place-pktrm', name: 'Park Street'},
+  {lat: 42.3555, lng: -71.0603, id: 'place-dwnxg', name: 'Downtown Crossing'},
+  {lat: 42.3519, lng: -71.0551, id: 'place-sstat', name: 'South Station'},
+  {lat: 42.3426, lng: -71.0569, id: 'place-brdwy', name: 'Broadway'},
+  {lat: 42.3302, lng: -71.0577, id: 'place-andrw', name: 'Andrew'},
+  {lat: 42.3206, lng: -71.0524, id: 'place-jfk',   name: 'JFK/UMass'},
+  {lat: 42.2758, lng: -71.0302, id: 'place-nqncy', name: 'North Quincy'},
+  {lat: 42.2668, lng: -71.0205, id: 'place-wlsta', name: 'Wollaston'},
+  {lat: 42.2520, lng: -71.0055, id: 'place-qnctr', name: 'Quincy Center'},
+  {lat: 42.2333, lng: -71.0071, id: 'place-qamnl', name: 'Quincy Adams'},
+  {lat: 42.2073, lng: -71.0014, id: 'place-brntn', name: 'Braintree'},
+  {lat: 42.3113, lng: -71.0533, id: 'place-shmnl', name: 'Savin Hill'},
+  {lat: 42.2999, lng: -71.0619, id: 'place-fldcr', name: 'Fields Corner'},
+  {lat: 42.2931, lng: -71.0658, id: 'place-smmnl', name: 'Shawmut'},
+  {lat: 42.2845, lng: -71.0637, id: 'place-asmnl', name: 'Ashmont'}
+];
 
 // Initialize map
 function initMap() {
@@ -65,6 +63,7 @@ function makeLines(stations) {
   redLine.setMap(map);
 }
 
+// Make the markers and set up their infowindows
 function makeMarkers(stations) {
 	var image = {
     url: 'subway-icon.png',
@@ -89,7 +88,7 @@ function makeMarkers(stations) {
   })
 }
 
-// Get the data
+// Get the data and format it
 function getTrainDetails(station, callback) {
   fetchJson(formatMBTAUrl(station), function(theData) {
     var trainsData = theData.data;
@@ -99,9 +98,9 @@ function getTrainDetails(station, callback) {
     		var time = trainsData[i].attributes.arrival_time.slice(11,19);
     		var direction = trainsData[i].attributes.direction_id;
     		if (direction == 1) {
-    			direction = "Ashmont/Braintree"
+    			direction = "Northbound (Alewife)"
     		} else {
-    			direction = "Alewife"
+    			direction = "Southbound (Ashmont/Braintree)"
     		}
 
     		formattedData.push({direction: direction, time: time});
@@ -118,7 +117,7 @@ function createInfoWindow(trainsData) {
   for (i = 0; i < trainsData.length; i++) {
   	schedule += '<p>' + trainsData[i].direction + ': ' + trainsData[i].time + '</p>';
   }
-  var content = '<h1>Upcoming Trains</h1>' + schedule;
+  var content = '<h2>Upcoming Train Arrivals</h2>' + schedule;
   infoWindow.setContent(content);
 
   return infoWindow;
@@ -127,7 +126,7 @@ function createInfoWindow(trainsData) {
 // Actually get the JSON data using XHR
 function fetchJson(url, callback) {
   var request = new XMLHttpRequest();
-  request.open('GET', url);
+  request.open('GET', url, true);
   request.addEventListener('load', function() {
     callback(JSON.parse(request.responseText))
   })
@@ -168,6 +167,7 @@ function showLocation(pos) {
   showCloseStation(location, locationMarker);
 }
 
+// Find the closest station, draw polyline, and create infowindow when marker is clicked
 function showCloseStation(location, locationMarker) {
   // Find closest station
   var myLocation = new google.maps.LatLng(location.latitude, location.longitude);
@@ -197,7 +197,7 @@ function showCloseStation(location, locationMarker) {
 
   var infowindow = new google.maps.InfoWindow({
     content:
-      '<p>Closest Red Line Station: ' + keys[minIndex] + 
+      '<h2>My Location</h2><p>Closest Red Line Station: ' + values[minIndex].name + 
       '</p><p>Distance away: ' + minDistance + ' miles</p>'
   })
 
