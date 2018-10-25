@@ -14,18 +14,21 @@
                     var message = $('#msg').val();
                     localStorage[getDate()] = message;
                     display();
+                    var message = $('#msg').val('')
                 }
             });
         });
 
+        // Display what's in localStorage in reverse order (newest first)
         function display() {
             output = "";
-            for (var i = 0; i < localStorage.length; i++) {
+            for (var i = localStorage.length - 1; i > 0; i--) {
                 output = output + "<p>" + localStorage.key(i) + " - " + localStorage.getItem(localStorage.key(i)) + "</p>\n";
             }
             $('#log').html(output);
         }
 
+        // Get the date and format it correctly
         function getDate() {
             var day = new Date().getUTCDay();
             if (day == 0)
