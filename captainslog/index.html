@@ -9,9 +9,74 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
-            var message = $('#msg').val();
-            console.log(message);
+            $(document).keypress(function(e) {
+                if (e.which == 13) {
+                    var message = $('#msg').val();
+                    localStorage[getDate()] = message;
+                    display();
+                }
+            });
         });
+
+        function display() {
+            output = "";
+            for (var i = 0; i < localStorage.length; i++) {
+                output = output + "<p>" + localStorage.key(i) + " - " + localStorage.getItem(localStorage.key(i)) + "</p>\n";
+            }
+            $('#log').html(output);
+        }
+
+        function getDate() {
+            var day = new Date().getUTCDay();
+            if (day == 0)
+                day = 'Sunday';
+            else if (day == 1) 
+                day = 'Monday';
+            else if (day == 2) 
+                day = 'Tuesday';
+            else if (day == 3) 
+                day = 'Wednesday';
+            else if (day == 4) 
+                day = 'Thursday';
+            else if (day == 5) 
+                day = 'Fridday';
+            else if (day == 6) 
+                day = 'Saturday';
+
+            var month = new Date().getMonth();
+            if (month == 0)
+                month = 'January';
+            else if (month == 1) 
+                month = 'February';
+            else if (month == 2) 
+                month = 'March';
+            else if (month == 3) 
+                month = 'April';
+            else if (month == 4) 
+                month = 'May';
+            else if (month == 5) 
+                month = 'June';
+            else if (month == 6) 
+                month = 'July';
+            else if (month == 7) 
+                month = 'August';
+            else if (month == 8) 
+                month = 'September';
+            else if (month == 9) 
+                month = 'October';
+            else if (month == 10) 
+                month = 'November';
+            else if (month == 11) 
+                month = 'December';
+
+            var date = new Date().getDate();
+            var year = new Date().getFullYear();
+            var hour = new Date().getHours();
+            var min = new Date().getMinutes();
+            var sec = new Date().getSeconds();
+           
+            return day + ' ' + month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+        }
     </script>
 </head>
 
