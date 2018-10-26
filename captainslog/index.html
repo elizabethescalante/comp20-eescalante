@@ -22,7 +22,7 @@
         // Display what's in localStorage in reverse order (newest first)
         function display() {
             output = "";
-            for (var i = localStorage.length - 1; i > 0; i--) {
+            for (var i = localStorage.length - 1; i >= 0; i--) {
                 output = output + "<p>" + localStorage.key(i) + " - " + localStorage.getItem(localStorage.key(i)) + "</p>\n";
             }
             $('#log').html(output);
@@ -42,7 +42,7 @@
             else if (day == 4) 
                 day = 'Thursday';
             else if (day == 5) 
-                day = 'Fridday';
+                day = 'Friday';
             else if (day == 6) 
                 day = 'Saturday';
 
