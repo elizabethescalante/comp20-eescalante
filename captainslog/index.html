@@ -19,13 +19,28 @@
             });
         });
 
-        // Display what's in localStorage in reverse order (newest first)
+        // Display what's in sorted localStorage in reverse order (newest first)
         function display() {
-            output = "";
-            for (var i = localStorage.length - 1; i >= 0; i--) {
-                output = output + "<p>" + localStorage.key(i) + " - " + localStorage.getItem(localStorage.key(i)) + "</p>\n";
+            
+            var sortedArray = sortLocalStorage();
+            var output = "";
+            for (var i = sortedArray.length - 1; i >= 0; i--) {
+                output = output + "<p>" + sortedArray[i] + " - " + localStorage.getItem(localStorage.key(i)) + "</p>\n";
             }
+
             $('#log').html(output);
+        }
+
+        // Sort localStorage by timestamp (key)
+        function sortLocalStorage(){
+           if(localStorage.length > 0){
+              var localStorageArray = new Array();
+              for (var i = 0; i < localStorage.length; i++){
+                  localStorageArray[i] = localStorage.key(i);
+              }
+           }
+           var sortedArray = localStorageArray.sort();
+           return sortedArray;
         }
 
         // Get the date and format it correctly
