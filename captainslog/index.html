@@ -12,7 +12,7 @@
             $(document).keypress(function(e) {
                 if (e.which == 13) {
                     var message = $('#msg').val();
-                    localStorage[getDate()] = message;
+                    localStorage[new Date().getTime()] = message;
                     display();
                     var message = $('#msg').val('')
                 }
@@ -20,12 +20,11 @@
         });
 
         // Display what's in sorted localStorage in reverse order (newest first)
-        function display() {
-            
+        function display() {           
             var sortedArray = sortLocalStorage();
             var output = "";
             for (var i = sortedArray.length - 1; i >= 0; i--) {
-                output = output + "<p>" + sortedArray[i] + " - " + localStorage.getItem(localStorage.key(i)) + "</p>\n";
+                output = output + "<p>" + new Date(sortedArray[i]) + " - " + localStorage.getItem(localStorage.key(i)) + "</p>\n";
             }
 
             $('#log').html(output);
@@ -40,60 +39,12 @@
               }
            }
            var sortedArray = localStorageArray.sort();
+
+           for (var i = 0; i < sortedArray.length; i++) {
+                sortedArray[i] = parseInt(sortedArray[i], 10);
+           }
+
            return sortedArray;
-        }
-
-        // Get the date and format it correctly
-        function getDate() {
-            var day = new Date().getUTCDay();
-            if (day == 0)
-                day = 'Sunday';
-            else if (day == 1) 
-                day = 'Monday';
-            else if (day == 2) 
-                day = 'Tuesday';
-            else if (day == 3) 
-                day = 'Wednesday';
-            else if (day == 4) 
-                day = 'Thursday';
-            else if (day == 5) 
-                day = 'Friday';
-            else if (day == 6) 
-                day = 'Saturday';
-
-            var month = new Date().getMonth();
-            if (month == 0)
-                month = 'January';
-            else if (month == 1) 
-                month = 'February';
-            else if (month == 2) 
-                month = 'March';
-            else if (month == 3) 
-                month = 'April';
-            else if (month == 4) 
-                month = 'May';
-            else if (month == 5) 
-                month = 'June';
-            else if (month == 6) 
-                month = 'July';
-            else if (month == 7) 
-                month = 'August';
-            else if (month == 8) 
-                month = 'September';
-            else if (month == 9) 
-                month = 'October';
-            else if (month == 10) 
-                month = 'November';
-            else if (month == 11) 
-                month = 'December';
-
-            var date = new Date().getDate();
-            var year = new Date().getFullYear();
-            var hour = new Date().getHours();
-            var min = new Date().getMinutes();
-            var sec = new Date().getSeconds();
-           
-            return day + ' ' + month + ' ' + date + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
         }
     </script>
 </head>
