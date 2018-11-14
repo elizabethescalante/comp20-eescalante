@@ -11,18 +11,16 @@ function HTMLActuator() {
 HTMLActuator.prototype.postToServer = function(grid, metadata) {
   var grid = JSON.stringify(grid);
   var score = metadata.score;
-  var time = Date();
   var username = prompt("Enter your username");
   var toSend = {
     "username": username,
     "score": score,
-    "grid": grid,
-    "created_at": time
+    "grid": grid
   };
 
   $(document).ready(function() {
     // var url = 'http://localhost:8888/submit';
-    var url = "https://rocky-harbor-73282.herokuapp.com/submit"
+    var url = "https://rocky-harbor-73282.herokuapp.com/submit";
     $.post(url,toSend);
   })
 };
