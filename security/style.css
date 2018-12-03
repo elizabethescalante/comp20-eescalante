@@ -2,17 +2,43 @@ body {
 	font-family: "HelveticaNeue-Light";
 }
 
+h1 {
+	margin-top: 20px;
+	margin-bottom: 0px;
+}
+
 h3 {
-	margin-top: 10px;
+	margin-top: 20px;
 	margin-bottom: 6px;
 }
 
 p {
 	margin-top: 6px;
-	margin-bottom: 20px;
+	margin-bottom: 6px;
 }
 
 ul {
 	margin-top: 6px;
-	margin-bottom: 20px;
+	margin-bottom: 6px;
+}
+
+div {
+	margin-left: 15px;
+	margin-top: 7px;
+}
+
+img {
+    margin-left: 100px;
+	width: 60%;
+	height: auto;
+}
+
+.issue {
+	margin-left: 0px;
+	margin-top: 5px;
+	font-weight: bold;
+}
+
+.code {
+	font-family: "Courier New";
 }

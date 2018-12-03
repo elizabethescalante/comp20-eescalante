@@ -10,29 +10,59 @@
 
 <body>
     <h1>Assingment 4: Web Security</h1>
+    <p>Elizabeth Escalante</p>
 
     <h3>Introduction</h3>
-        <p>Blah...</p>
+        <p>This product is a game center for the game 2048. It is a server that stores all usernames, scores, and grids for people who play the game. The purpose of this assignment is to find security and privacy vulnerabilities with the server and recommend solutions for these issues.</p>
 
     <h3>Methodology</h3>
-        <p>I used...</p>
+        <p>I used curl on terminal, my web browser and its developer tools, and the source code for the server.</p>
 
     <h3>Abstract of Findings</h3>
-        <p>Blah...</p>
+        <p>The most serious vulnerability I found was cross-site scripting (XSS). The server does nothing to protect against XSS, which is one of the most common security vulnerabilities on the internet. This would allow someone to inject any JavaScript code they wanted to in the site, and anyone who visited it would be affected. I also was able to access all of the scores in the database when accessing one of the routes that is only supposed to allow access to one person's scores, which could be dangerous if the database was holding more private information. Lastly, Cross-Origin Resource Sharing (CORS) was enabled for all sites, which means that anything attempting to access the server can do so, which again could be problematic with more private information.</p>
 
     <h3>Issues Found</h3>
         <ul>
-            <li>Issue 1</li>
-            <li>Issue 2</li>
-            <li>Issue 3</li>
+            <li>
+                <div class=issue>Issue 1: XSS</div>
+                <div>The first issue I found was cross-site scripting (XSS).</div>
+                <div>I found this issue using curl to sumbit data. It was located in the server, which did not validate user input.</div>
+                <div>This is a severe issue. It is one of the OWASP Top 10 security risks and is a common and severe problem. It allows anyone to inject any JavaScript code into the server, which is then executed when someone visits the site. I simply made a blank alert box pop up, but this vulnerability could be abused to access information stored in the browser, inject malicious code into the site, or redirect the user to a malicious site.</div>
+                <div>I found this issue by using curl on terminal to submit a username, score, and grid to the server. However, instead of a true username, I used JavaScript code to simply create a blank alert box. When you to to the site, the browser reads this code and executes it, causing an alert box to pop up:</div>
+                <div><img src="XSS.png" alt="image of XSS"></div>
+                <div>To resolve this issue, the server should validate user input, since user input should never, ever be trusted. The input should be stripped of any special characters before being put into the database. This would then make the username something like scriptalertscript, which would not cause the browser to execute any JavaScript code.</div>
+            </li>
+            <li>
+                <div class=issue>Issue 2: Injection Attack</div>
+                <div>The second issue I found was vulnerability to an injection attack.</div>
+                <div>I found this issue when accessing /scores.json on my web browser. It was located in the server, which did not validate user input in the query string of the route /scores.json.</div>
+                <div>This is not a severe issue for this product, but can be in other applications. This project contains another route (GET /) which returns all users' data, which is what I was able to access with the injection attack, so for this product I was not accessing any data that I was not able to access elsewhere, though I still was not supposed to be able to access it through this route. However, in other applications, this type of attack could have much more serious implications. For example, if the server stored private data and only allowed you to access your own data by typing in your username, I would have been able to see all of the private data for every user.</div>
+                <div>I found this issue by going to /scores.json and then using the query string "?username[$ne]=batman". The [$ne] operator is the "not equal" operator, so this query returns everything in the database that is not equal to batman; in this case, that is everything in the database.</div>
+                <div><img src="injection.png" alt="image of injection"></div>
+                <div>To resolve this issue, you can again strip out special characters or strip out anything that begins with the $ character. This would prevent any operators from being used to access private data.</div>
+            </li>
+            <li>
+                <div class=issue>Issue 3: CORS wildcard *</div>
+                <div>The third issue I found was the CORS header.</div>
+                <div>I found this issue in the source code of the product.</div>
+                <div>This is not a severe issue for this application, since it is not storing private and sensitive data. However, many sites that do store this data cannot have CORS enabled for any site, since this would mean that anyone would be able to access the data in the database.</div>
+                <div>I found this issue by closely examining the source code (seen below). The server allows CORS with the header "Access-Control-Allow-Origin" set to the wildcard character, which is the *. This means that the server can be accessed by every origin. In other words, every site can send and request data from the server, since this header is in both the GET and POST routes. With a lot of types of data, you don't want it to be accessible to anyone on the internet.</div>
+                <div><img src="cors1.png" alt="image of first header"></div>
+                <div><img src="cors2.png" alt="image of second header"></div>
+                <div>To resolve this issue, you can allow only specific sites to access your server. For example, instead of the wildcard character, you could write ("Access-Control-Allow-Origin", "http://example.com"), which would allow only example.com to access the server.</div>
+            </li>
         </ul>
    
    <h3>Conclusion</h3>
-        <p>Blah...</p>
+        <p>Since this product was not storing highly sensitive or private information, many of these security risks and vulnerabilities were not severe. However, they could pose large threats if the data used by the server was more private, and even if the server became more widley used; people may not want their username and scores available to anyone on the internet. In addition, cross-site scripting is a big security risk, because anyone who visits the site can be affected or redirected to a malicious site. These issues are simple to resolve and don't require much code, so it is important that they are addressed not just in this product but in everything on the web.</p>
 
     <h3>References</h3>
         <ul>
             <li>Class notes</li>
+            <li>https://www.owasp.org/index.php/Cross-site_Scripting_(XSS)</li>
+            <li>https://zanon.io/posts/nosql-injection-in-mongodb</li>
+            <li>https://stackoverflow.com/questions/12001269/what-are-the-security-risks-of-setting-access-control-allow-origin</li>
+            <li>https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS</li>
         </ul>
 
 </body>
