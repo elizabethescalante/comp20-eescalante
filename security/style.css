@@ -1,5 +1,6 @@
 body {
 	font-family: "HelveticaNeue-Light";
+	font-size: 18px;
 }
 
 h1 {
@@ -29,8 +30,13 @@ div {
 
 img {
     margin-left: 100px;
-	width: 60%;
+	width: 40%;
 	height: auto;
+}
+
+code {
+	font-size: 18px;
+	margin-left:15px;
 }
 
 .issue {
@@ -41,4 +47,9 @@ img {
 
 .code {
 	font-family: "Courier New";
+}
+
+.big {
+	width: 65%;
+	height: auto;
 }
